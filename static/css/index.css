@@ -2,6 +2,47 @@ body {
   font-family: 'Noto Sans', sans-serif;
 }
 
+/* Additional Figures Section Customization */
+.additional-figures-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.additional-figures-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  width: 100%;
+  align-items: center;
+}
+
+.additional-figures-list > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.additional-figures-section figure.image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.additional-figures-section figure.image img {
+  width: 100%;
+  max-width: none;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.additional-figures-section .has-text-centered {
+  text-align: center;
+}
+
 
 .footer .icon-link {
     font-size: 25px;
