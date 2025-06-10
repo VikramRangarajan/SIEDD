@@ -1,6 +1,6 @@
 # SIEDD: Shared Implicit Encoder with Discrete Decoders
 
-## [Paper](https://example.com) | [Project Page](https://example.com)
+## [Paper](https://example.com) | [Project Page](https://vikramrangarajan.github.io/SIEDD/)
 
 ## TODO:
 - [ ] Remove backblaze dependency for runpod and add `runpod_startup.sh` and `runpod_launch.sh`
