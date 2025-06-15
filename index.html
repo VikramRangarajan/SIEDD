@@ -286,6 +286,40 @@
                     </div>
                     <!-- Add more figure blocks as needed -->
                 </div>
+            </div>
+        </section>
+
+
+        <!-- Image cropper carousel -->
+        <section class="hero is-small">
+            <div class="hero-body">
+                <div class="container is-max-desktop additional-figures-section">
+                    <h2 class="title is-3 has-text-centered">Visual Results (Drag on the Top Ground Truth Image to Crop)</h2> <br></b>
+                </div>
+                <div class="container">
+                    <div class="carousel-container">
+                        <figure style="display: flex; flex-direction: column; align-items: center;">
+                            <canvas id="groundCanvas" width="500" height="300"></canvas>
+                            <figcaption id="groundCaption" class="has-text-centered" style="margin-top: 0.5em;"></figcaption>
+                        </figure>
+                        <div class="grid" id="previewGrid" style="width:70%;">
+                            <!-- Previews and their captions will be generated dynamically -->
+                        </div>
+                        <div class="carousel-controls">
+                            <button id="prevBtn" class="button is-normal is-rounded is-dark">Prev</button>
+                            <span id="slideIndicator">1 / N</span>
+                            <button id="nextBtn" class="button is-normal is-rounded is-dark">Next</button>
+                        </div>
+                        <div id="carouselCaption" class="has-text-centered" style="margin-top: 1em; font-style: italic;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End image cropper carousel -->
+
+
+        <section class="section">
+            <div class="container is-max-desktop additional-figures-section">
                 <h2 class="title is-3">Figures</h2>
                 <div class="additional-figures-list">
                     <div>
@@ -346,74 +380,6 @@
                 </div>
             </div>
         </section>
-        <!-- Image carousel -->
-        <section class="hero is-small">
-            <div class="hero-body">
-                <div
-                    class="container is-max-desktop additional-figures-section"
-                >
-                    <h2 class="title is-3">Visual Results</h2>
-                </div>
-                <div class="container">
-                    <div
-                        id="results-carousel"
-                        class="carousel results-carousel"
-                    >
-                        <div class="item">
-                            <img
-                                src="static/images/fig3.png"
-                                alt="MY ALT TEXT"
-                            />
-                            <h2 class="subtitle has-text-centered">
-                                Reconstruction results of SIEDD vs. HiNeRV,
-                                HNeRV, and FFNeRV. The images shown are from
-                                UVG-HD Jockey and Bosphorus. All models were
-                                given a maximum of 1 hour of training time.
-                            </h2>
-                        </div>
-                        <div class="item">
-                            <img
-                                src="static/images/fig4.png"
-                                alt="MY ALT TEXT"
-                            />
-                            <h2 class="subtitle has-text-centered">
-                                Super resolution results. SIEDD-L was trained on
-                                UVG-HD Beauty and set to decode at 4k. The
-                                results are compared with interpolation methods
-                                (nearest, bilinear, bicubic) and the ground
-                                truth UVG-4k frame.
-                            </h2>
-                        </div>
-                        <div class="item">
-                            <img
-                                src="static/images/fig7.png"
-                                alt="MY ALT TEXT"
-                            />
-                            <h2 class="subtitle has-text-centered">
-                                UVG-4k visual results. We compare the ground
-                                truth frame to SIEDD-L with no patching, 3x3
-                                patches, and 6x6 patches. While patching
-                                provides much higher decoding speed, it causes a
-                                visible loss in quality.
-                            </h2>
-                        </div>
-                        <div class="item">
-                            <img
-                                src="static/images/fig8.png"
-                                alt="MY ALT TEXT"
-                            />
-                            <h2 class="subtitle has-text-centered">
-                                SIEDD-L reconstruction results on UVG-HD
-                                YachtRide. We also show the FLIP error map of
-                                the two frames.
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End image carousel -->
-
         <!-- Youtube video -->
         <!-- <section class="hero is-small is-light">
             <div class="hero-body">

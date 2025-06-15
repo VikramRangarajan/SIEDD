@@ -155,6 +155,29 @@ body {
   overflow: hidden;
 }
 
+/* Cropper Carousel Styles */
+.carousel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.carousel-container canvas {
+  border: 1px solid #ccc;
+}
+.carousel-container .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.carousel-controls {
+  margin-top: 10px;
+}
+.carousel-controls button {
+  padding: 8px 16px;
+  margin: 0 5px;
+}
+
 .results-carousel .item {
   margin: 5px;
   overflow: hidden;
