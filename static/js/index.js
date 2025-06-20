@@ -219,6 +219,8 @@ const slides = [
         canvas.width = PREVIEW_W;
         canvas.height = PREVIEW_H;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.imageSmoothingEnabled = false;
+        if (ctx.imageSmoothingQuality !== undefined) ctx.imageSmoothingQuality = 'low';
         const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
         const drawW = img.width * scale;
         const drawH = img.height * scale;
@@ -257,7 +259,8 @@ const slides = [
         const sh = cropH * scaleUp;
 
         // Draw the crop, stretched to fit preview canvas
-        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingEnabled = false;
+        if (ctx.imageSmoothingQuality !== undefined) ctx.imageSmoothingQuality = 'low';
         ctx.drawImage(
           img,
           sx, sy, sw, sh,

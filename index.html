@@ -322,13 +322,42 @@
             <div class="container is-max-desktop additional-figures-section">
                 <h2 class="title is-3">Figures</h2>
                 <div class="additional-figures-list">
+                    <div style="display: flex; flex-direction: row; gap: 2rem; width: 130%; justify-content: center; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <iframe src="static/js/fig2a.html" width="100%" height="500"></iframe>
+                            <p class="has-text-centered">
+                                Here, we show the rate-distortion tradeoff.
+                            </p>
+                        </div>
+                        <div style="flex: 1;">
+                            <iframe src="static/js/fig2b.html" width="100%" height="500"></iframe>
+                            <p class="has-text-centered">
+                                Here, we show the speed-quality tradeoff. The size of the points represents the compression rate (in BPP).
+                            </p>
+                        </div>
+                    </div>
+                    <p class="has-text-centered">
+                        The figures above are a comparison of our method and baselines on UVG-HD.
+                    </p>
                     <div>
-                        <figure class="image">
-                            <img
-                                src="static/images/ablation_psnr_vs_bpp.png"
-                                alt="Description of Figure 1"
-                            />
-                        </figure>
+                        <iframe src="static/js/fig5a.html" width="70%" height="500"></iframe>
+                        <p class="has-text-centered">
+                            The any fps decoding capabilities of SIEDD. Because
+                            of the coordinate-based approach, lower resolutions
+                            result in a lower batch size, speeding up inference
+                            and removing the need for expensive transcoding.
+                        </p>
+                    </div>
+                    <div>
+                        <iframe src="static/js/fig5b.html" width="70%" height="500"></iframe>
+                        <p class="has-text-centered">
+                            The second training phase of SIEDD is embarassingly
+                            parallel, meaning different GPUs can simultaneously
+                            train different frame groups.
+                        </p>
+                    </div>
+                    <div>
+                        <iframe src="static/js/fig6a.html" width="70%" height="500"></iframe>
                         <p class="has-text-centered">
                             The PSNR vs. BPP curve when ablating the model layer
                             dimension and the number of decoder layers
@@ -338,42 +367,10 @@
                         </p>
                     </div>
                     <div>
-                        <figure class="image">
-                            <img
-                                src="static/images/ablation_time_vs_psnr.png"
-                                alt="Description of Figure 2"
-                            />
-                        </figure>
+                        <iframe src="static/js/fig6b.html" width="70%" height="500"></iframe>
                         <p class="has-text-centered">
                             The PSNR curve with the same ablations as above, but
                             in relation to the encoding time.
-                        </p>
-                    </div>
-                    <div>
-                        <figure class="image">
-                            <img
-                                src="static/images/any_fps.png"
-                                alt="Description of Figure 2"
-                            />
-                        </figure>
-                        <p class="has-text-centered">
-                            The any fps decoding capabilities of SIEDD. Because
-                            of the coordinate-based approach, lower resolutions
-                            result in a lower batch size, speeding up inference
-                            and removing the need for expensive transcoding.
-                        </p>
-                    </div>
-                    <div>
-                        <figure class="image">
-                            <img
-                                src="static/images/gpu_parallel.png"
-                                alt="Description of Figure 2"
-                            />
-                        </figure>
-                        <p class="has-text-centered">
-                            The second training phase of SIEDD is embarassingly
-                            parallel, meaning different GPUs can simultaneously
-                            train different frame groups.
                         </p>
                     </div>
                     <!-- Add more figure blocks as needed -->
