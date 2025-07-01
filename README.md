@@ -1,9 +1,10 @@
 # SIEDD: Shared Implicit Encoder with Discrete Decoders
 
-## [Paper](https://example.com) | [Project Page](https://vikramrangarajan.github.io/SIEDD/)
+## [arXiv](https://arxiv.org/abs/2506.23382) | [Paper](https://arxiv.org/pdf/2506.23382) | [Project Page](https://vikramrangarajan.github.io/SIEDD/)
 
 ## TODO:
 - [ ] Remove backblaze dependency for runpod and add `runpod_startup.sh` and `runpod_launch.sh`
+- [ ] Add proper decoding script/entry point
 
 ## Installation and Setup
 Created using [uv](https://docs.astral.sh/uv/) which you must first install. To use, either clone the repository and run
