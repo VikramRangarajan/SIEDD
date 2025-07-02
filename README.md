@@ -66,6 +66,7 @@ Place the folders containing the frame images according to the expected director
 
 ## Usage
 
+### Encoding
 You can run the encoding process by doing
 
 ```bash
@@ -83,6 +84,15 @@ The data path is expected to be one of:
 
 To use [tiny-cuda-nn](https://github.com/NVlabs/tiny-cuda-nn/), this must be installed seperately (the pytorch bindings). If not installed correctly, any use of tiny-cuda-nn related modules will raise an error.
 
+### Decoding
+To run the decoding process, use
+```bash
+uv run decode_frames [PATH] [FRAMES] --output [FRAME OUTPUTS] --resolution [RESOLUTION]
+```
+Run the following command for more details:
+```bash
+uv run decode_frames --help
+```
 ## Experiments
 
 The experiments can be run on either SLURM or RunPod

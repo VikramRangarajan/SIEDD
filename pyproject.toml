@@ -49,6 +49,7 @@ dependencies = [
 
 [project.scripts]
 train = "SIEDD.main:main"
+decode_frames = "SIEDD.decode_frames:main"
 exp = "SIEDD.exp:start"
 runpod_exp = "SIEDD.runpod_exp:main"
 quant_exp = "SIEDD.quant_exp:main"

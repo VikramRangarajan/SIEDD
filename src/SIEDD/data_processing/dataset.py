@@ -144,6 +144,9 @@ class VideoDataset:
 
         state_str = (pth / "dataset_state.json").read_text()
         state = literal_eval(state_str)
-        self.input_data_shape = state["input_data_shape"]
-        self.data_shape = state["data_shape"]
+        self.input_data_shape: list[int] = state["input_data_shape"]
+        self.data_shape: list[int] = state["data_shape"]
         self.transform.inverse_map = state["transform_state"]
+        num_frames = state["num_frames"]
+        assert isinstance(num_frames, int)
+        self.data_list = [""] * num_frames

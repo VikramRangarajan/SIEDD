@@ -89,14 +89,14 @@ class DataProcess:
 
         if len(files) == 0:
             raise ValueError(f"Empty directory: {self.data_path}")
-        else:
-            if not files[0].endswith((".png", ".jpg", ".jpeg")):
-                raise ValueError(f"Unsupported file format: {files[0]}")
+        elif not files[0].endswith((".png", ".jpg", ".jpeg")) and not inference:
+            raise ValueError(f"Unsupported file format: {files[0]}")
 
         data_set = VideoDataset(files, self.cfg, not inference)
+        self.num_frames = len(files)
         if inference:
             data_set.load_state(self.data_path)
-        self.num_frames = len(files)
+            self.num_frames = len(data_set)
         return data_set
 
     def load_multiple_data_dir(self) -> VideoDataset:
@@ -115,6 +115,7 @@ class DataProcess:
         data_set = VideoDataset(files, self.cfg, not inference)
         if inference:
             data_set.load_state(self.data_path)
+            self.num_frames = len(data_set)
         self.num_frames = len(files)
         return data_set
 

@@ -318,6 +318,7 @@ def decode_image(strainer: "Strainer", frame: int, resolution: tuple[int, int]):
         None,
     ).cuda()  # type: ignore
 
+    strainer.data_pipeline.data_set.load_state(strainer.save_path)
     num_frames = strainer.data_pipeline.num_frames
     group_size = strainer.train_cfg.group_size
     it = list(
@@ -326,7 +327,6 @@ def decode_image(strainer: "Strainer", frame: int, resolution: tuple[int, int]):
             batched(range(num_frames), group_size),
         )
     )
-    strainer.data_pipeline.data_set.load_state(strainer.save_path)
     frame_group = [i for i in it if frame in i]
     if len(frame_group) != 1:
         raise ValueError("Should have 1 frame group identified, got", len(frame_group))
@@ -363,7 +363,7 @@ def decode_image(strainer: "Strainer", frame: int, resolution: tuple[int, int]):
     else:
         model.load_state_dict(decoder_state, strict=False)
         replace(model)
-
+    model = model.bfloat16()
     strainer.data_pipeline.data_shape = [H, W]
     fps, model_output = strainer.get_fps(model, frames)
     processed_out = helpers.process_predictions(

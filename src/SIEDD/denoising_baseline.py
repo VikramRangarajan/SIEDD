@@ -10,6 +10,7 @@ import numpy as np
 from tqdm import tqdm
 import pandas as pd
 
+
 def main():
     cfg = stable_config_4()
     cfg.encoder_cfg.image_transform.denoising = True
@@ -43,7 +44,8 @@ def main():
             cfg.encoder_cfg.image_transform.denoising_type = denoising_type
             dp.data_set.transform.args.denoising_type = denoising_type
             results = [
-                dp.data_set.preprocess_image(x, i) for i, x in zip(frames, original_frames)
+                dp.data_set.preprocess_image(x, i)
+                for i, x in zip(frames, original_frames)
             ]
             processed = [x[0] for x in results]
             orig = [x[1] for x in results]
@@ -61,7 +63,9 @@ def main():
             baseline_psnr = msepsnr(orig, processed)[0]
 
             gauss = torch.from_numpy(
-                np.array([cv2.GaussianBlur(x.cpu().numpy(), (7, 7), 1) for x in processed])
+                np.array(
+                    [cv2.GaussianBlur(x.cpu().numpy(), (7, 7), 1) for x in processed]
+                )
             ).cuda()
             gauss_psnr = msepsnr(orig, gauss)[0]
 
@@ -83,6 +87,7 @@ def main():
     df = pd.DataFrame(data, index=["baseline", "gaussian", "median"])  # type: ignore
     print(df)
     df.to_csv("denoising_baseline.csv")
+
 
 if __name__ == "__main__":
     main()
