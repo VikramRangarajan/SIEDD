@@ -52,7 +52,9 @@ class DataProcess:
         )
 
     def build(self):
-        if all(map(lambda x: x.is_dir(), self.data_path.iterdir())):
+        if self.data_path.is_dir() and all(
+            map(lambda x: x.is_dir(), self.data_path.iterdir())
+        ):
             # If we want to treat multiple videos as one video
             self.data_set = self.load_multiple_data_dir()
         elif os.path.isfile(self.data_path) and self.data_path.suffix in (
