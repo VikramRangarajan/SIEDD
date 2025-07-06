@@ -4,17 +4,11 @@
 
 ## TODO:
 - [ ] Remove backblaze dependency for runpod and add `runpod_startup.sh` and `runpod_launch.sh`
-- [ ] Add proper decoding script/entry point
 
 ## Installation and Setup
-Created using [uv](https://docs.astral.sh/uv/) which you must first install. To use, either clone the repository and run
+Created using [uv](https://docs.astral.sh/uv/) which you must first install. To use, clone the repository and run
 ```bash
 uv pip install .
-```
-or run
-
-```bash
-uv pip install git@github.com:VikramRangarajan/SIEDD.git
 ```
 
 Also make sure to run wandb.login() before running experiments using wandb logging.
@@ -30,10 +24,10 @@ If you are submitting SLURM jobs, you must create an .env file.
     - Optional: Set the `SBATCH_ACCOUNT` environment variable
     - Optional: Set the `SBATCH_PARTITION` environment variable
 - For RunPod
-    - Set your RUNPOD_API_KEY environment variable
-    - Set RUNPOD_VOLUME_ID to the volume with the datasets, code, and virtual environment
+    - Set your `RUNPOD_API_KEY` environment variable
+    - Set `RUNPOD_VOLUME_ID` to the volume with the datasets, code, and virtual environment
     - Set the `B2_EXP_SCRATCH_PATH` environment variable to your backblaze path (ex: `b2://your-bucket/experiment_scratch`)
-    - Set your B2_APPLICATION_KEY and B2_APPLICATION_KEY_ID to a backblaze s3 bucket containing the data in the structure shown below.
+    - Set your `B2_APPLICATION_KEY` and `B2_APPLICATION_KEY_ID` to a backblaze s3 bucket containing the data in the structure shown below.
 
     This is used to transfer the config file to the pod.
 - For PyTorch
@@ -79,8 +73,8 @@ The data path is expected to be one of:
 - A folder containing **3 channel RGB images** (jpeg, png) with the frames named in order (ex: f001.png, f002.png, ...)
 - A yuv file (the config must show the size)
     - Note: The correct implementation converting yuv to rgb is *not* equivalent to FFMPEG's conversion, so do not use this if possible
-- A video file (.mp4, .avi, .mov, .mkv) (note: untested)
-- A folder containing folders of images (same formats as first bullet)
+- A video file (.mp4, .avi, .mov, .mkv)
+- A folder containing folders of images (same formats as first bullet). This was used to train a shared encoder on the whole UVG-HD dataset.
 
 To use [tiny-cuda-nn](https://github.com/NVlabs/tiny-cuda-nn/), this must be installed seperately (the pytorch bindings). If not installed correctly, any use of tiny-cuda-nn related modules will raise an error.
 

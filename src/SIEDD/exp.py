@@ -1058,8 +1058,8 @@ def experiment_56():
     # SIEDD L
     for d in VIDEOS:
         pth = PROJECT_ROOT / "data" / DATASET_PATH / f"{d}{RES}"
-        cfg = SIEDD_M()
-        start_run(cfg, pth, f"exp_56{DATASET_PATH}_{d}")
+        cfg = SIEDD_L()
+        start_run(cfg, pth, f"exp_56_{DATASET_PATH}_{d}")
 
 
 EXPERIMENTS = [
