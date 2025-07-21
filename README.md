@@ -1,17 +1,24 @@
 # SIEDD: Shared Implicit Encoder with Discrete Decoders
-
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 ## [arXiv](https://arxiv.org/abs/2506.23382) | [Paper](https://arxiv.org/pdf/2506.23382) | [Project Page](https://vikramrangarajan.github.io/SIEDD/)
 
 ## TODO:
 - [ ] Remove backblaze dependency for runpod and add `runpod_startup.sh` and `runpod_launch.sh`
 
 ## Installation and Setup
-Created using [uv](https://docs.astral.sh/uv/) which you must first install. To use, clone the repository and run
+Created using [uv](https://docs.astral.sh/uv/) which you must first install. You can clone the repository and install (only the main branch, the gh-pages branch bloats the installation to >100MB)
 ```bash
-uv pip install .
+git clone --single-branch -b main git@github.com:VikramRangarajan/SIEDD.git
+cd SIEDD
+uv sync
 ```
 
-Also make sure to run wandb.login() before running experiments using wandb logging.
+If installing as a standalone app, run
+```bash
+pip install https://github.com/VikramRangarajan/SIEDD.git@main
+```
+
+Also make sure to run wandb.login() before running experiments to use wandb logging.
 
 ### Environment Variables
 

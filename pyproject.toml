@@ -28,20 +28,13 @@ dependencies = [
     "bitsandbytes==0.45.5",
     "optimum-quanto==0.2.*",
     "constriction==0.4.*",
-    "matplotlib==3.9.*",
-    "ruff>=0.11.5",
     "pydantic-yaml==1.4.*",
-    "types-tqdm==4.67.*",
-    "pyright[nodejs]>=1.1.399",
-    "pytest==8.3.4",
     "opencv-python>=4.11.0.86",
     "grokadamw==0.1.2",
     "muon-optimizer",
-    "notebook",
     "python-dotenv>=1.1.0",
     "b2>=4.3.2",
     "flip-evaluator>=1.6.0.1",
-    "scienceplots>=2.1.1",
     "yt-dlp[default]>=2025.4.30",
     "vmaf-torch",
     "py7zr>=1.0.0",
@@ -60,8 +53,11 @@ multigpu = "SIEDD.multigpu:main"
 denoising_baseline = "SIEDD.denoising_baseline:main"
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.8.0,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "SIEDD"
 
 [[tool.uv.index]]
 name = "pytorch-cu126"
@@ -71,3 +67,10 @@ explicit = true
 [tool.uv.sources]
 muon-optimizer = { git = "https://github.com/KellerJordan/Muon" }
 vmaf-torch = { git = "https://github.com/alvitrioliks/VMAF-torch" }
+
+[dependency-groups]
+dev = [
+    "pyright[nodejs]>=1.1.401",
+    "pytest>=8.3.4",
+    "ruff>=0.11.13",
+]
