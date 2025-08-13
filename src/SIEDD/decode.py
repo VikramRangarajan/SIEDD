@@ -1,19 +1,21 @@
-from SIEDD.layers.batch import BatchLinear
-from SIEDD.configs import (
-    LoraType,
-    SkipConnectionType,
-    QuantizationConfig,
-    STRAINERNetConfig,
-)
-from SIEDD.utils import helpers, generate_coordinates
+from itertools import batched
+from typing import TYPE_CHECKING, Union
+
+import einops
 import torch
+from bitsandbytes.nn import Linear4bit, Linear8bitLt
+from hqq.core import quantize as hqq_quantize
 from torch import nn
 from torch.nn.functional import interpolate
-import einops
-from bitsandbytes.nn import Linear8bitLt, Linear4bit
-from hqq.core import quantize as hqq_quantize
-from typing import TYPE_CHECKING, Union
-from itertools import batched
+
+from SIEDD.configs import (
+    LoraType,
+    QuantizationConfig,
+    SkipConnectionType,
+    STRAINERNetConfig,
+)
+from SIEDD.layers.batch import BatchLinear
+from SIEDD.utils import generate_coordinates, helpers
 
 if TYPE_CHECKING:
     from SIEDD.strainer import Strainer, StrainerNet
@@ -259,13 +261,11 @@ def setup_dynamic_res_decoding(
     assert isinstance(patch_size, int)
     _, H_0, W_0 = original_shape
     H, W = new_shape
-    valid_resolutions = []
-    for ph in range(1, patch_size + 1):
-        for pw in range(1, patch_size + 1):
-            valid_resolutions.append((H_0 * ph // patch_size, W_0 * pw // patch_size))
-    if new_shape not in valid_resolutions:
+    smallest_h = H_0 // patch_size
+    smallest_w = W_0 // patch_size
+    if H % smallest_h != 0 or W % smallest_w != 0:
         raise ValueError(
-            f"Invalid resolution {new_shape}, valid resolutions are {valid_resolutions}"
+            f"Invalid resolution {new_shape}, must be multiple of {smallest_h}x{smallest_w}"
         )
     new_patch_size = (patch_size * H // H_0, patch_size * W // W_0)
 
@@ -298,12 +298,22 @@ def setup_dynamic_res_decoding(
             pw=new_patch_size[1],
         )
         linear.bias = nn.Parameter(b_interp)
+        linear.out_features = (
+            linear.out_features
+            * (new_patch_size[0] * new_patch_size[1])
+            // (patch_size**2)
+        )
 
 
 def decode_image(strainer: "Strainer", frame: int, resolution: tuple[int, int]):
     """resolution should be W x H"""
 
     W, H = resolution
+    orig_h, orig_w = strainer.data_pipeline.data_shape[-2:]
+    if strainer.cfg.encoder_cfg.patch_size is not None and (H, W) != (orig_h, orig_w):
+        coords_h, coords_w = orig_h, orig_w
+    else:
+        coords_w, coords_h = resolution
 
     # Set resolution
     if isinstance(strainer.enc_cfg.net, STRAINERNetConfig):
@@ -311,13 +321,12 @@ def decode_image(strainer: "Strainer", frame: int, resolution: tuple[int, int]):
     else:
         correct_pos_enc_cfg = strainer.enc_cfg.net.pos_encode_cfg
     strainer.coordinates = generate_coordinates(
-        [H, W],
+        [coords_h, coords_w],
         strainer.enc_cfg.patch_size,
         strainer.enc_cfg.normalize_range,
         correct_pos_enc_cfg,
         None,
     ).cuda()  # type: ignore
-
     strainer.data_pipeline.data_set.load_state(strainer.save_path)
     num_frames = strainer.data_pipeline.num_frames
     group_size = strainer.train_cfg.group_size
@@ -364,11 +373,16 @@ def decode_image(strainer: "Strainer", frame: int, resolution: tuple[int, int]):
         model.load_state_dict(decoder_state, strict=False)
         replace(model)
     model = model.bfloat16()
-    strainer.data_pipeline.data_shape = [H, W]
+    if strainer.cfg.encoder_cfg.patch_size is not None and (H, W) != (orig_h, orig_w):
+        setup_dynamic_res_decoding(strainer, model, (H, W))
+        model.patch_size = strainer.cfg.encoder_cfg.patch_size * H // orig_h
+        enc_cfg = strainer.enc_cfg.model_copy(deep=True)
+        enc_cfg.patch_size = model.patch_size
+    else:
+        strainer.data_pipeline.data_shape = [H, W]
+        enc_cfg = strainer.enc_cfg
     fps, model_output = strainer.get_fps(model, frames)
     processed_out = helpers.process_predictions(
-        model_output,
-        strainer.enc_cfg,
-        input_data_shape=[H, W],
+        model_output, enc_cfg, input_data_shape=[H, W]
     )
     return processed_out, fps
